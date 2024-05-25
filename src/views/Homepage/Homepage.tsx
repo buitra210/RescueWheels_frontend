@@ -1,8 +1,19 @@
-import { Box, Button, Typography } from "@mui/material";
+import { useState } from "react";
+import {
+  Box,
+  Button,
+  Typography,
+} from "@mui/material";
 import VideoHomepage from "../../layout/video/VideoHomepage";
 import Layout from "../../layout/Layout";
+import AuthModal from "../AuthModal/AuthModal";
 
 export default function Homepage() {
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
   return (
     <Layout>
       <Box>
@@ -36,11 +47,13 @@ export default function Homepage() {
                   backgroundColor: "#7692a9",
                 },
               }}
+              onClick={handleOpenModal}
             >
               Get Started
             </Button>
           </Box>
         </Box>
+        <AuthModal open={openModal} onClose={handleCloseModal} />
         <Box></Box>
       </Box>
     </Layout>
