@@ -1,12 +1,10 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
@@ -15,11 +13,15 @@ import AdbIcon from "@mui/icons-material/Adb";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import SearchIcon from "@mui/icons-material/Search";
 import { Divider, InputBase, Paper } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
 
 const pages = ["Urgent", "Company", "Location", "About Us", "Contact Us"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings: string[] = ["Profile", "Account", "Dashboard", "Logout"];
 
 export default function Header() {
+
+  const navigate = useNavigate();
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -32,6 +34,14 @@ export default function Header() {
   };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
+  };
+
+  const handleMenuClick = (setting: string) => {
+    if (setting === "Profile") {
+      navigate("/profile");
+    }
+    // Add other navigation logic here if needed
+    handleCloseUserMenu(); // Close the menu after navigating
   };
 
   const handleCloseNavMenu = () => {
@@ -203,7 +213,7 @@ export default function Header() {
             onClose={handleCloseUserMenu}
           >
             {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
+              <MenuItem key={setting} onClick={() => handleMenuClick(setting)}>
                 <Typography textAlign="center">{setting}</Typography>
               </MenuItem>
             ))}
