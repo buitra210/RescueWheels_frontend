@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
   Typography,
   Modal,
   TextField,
-  Tab,
-  Tabs,
+  Stack,
+  IconButton,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface AuthModalProps {
   open: boolean;
@@ -15,104 +16,122 @@ interface AuthModalProps {
 }
 
 export default function AuthModal({ open, onClose }: AuthModalProps) {
-  const [isLoginMode, setIsLoginMode] = useState(true); // Chế độ đăng nhập mặc định
-  const [username, setUsername] = useState("");
+  const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
-  const handleTabChange = (_event: React.ChangeEvent<{}>, newValue: boolean) => {
-    setIsLoginMode(newValue);
+  const handleSwitchAuth = () => {
+    setIsLogin(!isLogin);
+    // Reset form fields when switching between login and signup
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setPasswordsMatch(true);
   };
 
-  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
-  };
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
-  const handleSubmit = () => {
-    // Xác minh rằng mật khẩu và mật khẩu xác nhận khớp nhau
-    if (password === confirmPassword) {
-      // Thực hiện đăng nhập hoặc đăng ký tùy thuộc vào chế độ hiện tại
-      if (isLoginMode) {
-        // Xử lý đăng nhập
-      } else {
-        // Xử lý đăng ký
-      }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isLogin) {
+      // Handle login logic
     } else {
-      // Nếu mật khẩu không khớp, hiển thị thông báo hoặc thực hiện hành động khác
-      setPasswordsMatch(false);
+      if (password !== confirmPassword) {
+        setPasswordsMatch(false);
+      } else {
+        // Handle register logic
+      }
     }
   };
 
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setConfirmPassword(e.target.value);
+    setPasswordsMatch(true); // Reset password match status when changing confirm password
+  };
+
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      aria-labelledby="modal-login-title"
-      aria-describedby="modal-login-description"
-    >
+    <Modal open={open} onClose={onClose}>
       <Box
         sx={{
           position: "absolute",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 400,
           bgcolor: "background.paper",
-          border: "2px solid #000",
           boxShadow: 24,
           p: 4,
+          width: 400,
+          borderRadius: 4,
+          textAlign: "center",
           display: "flex",
           flexDirection: "column",
-          gap: 2,
-          borderRadius: '10px'
         }}
       >
-        <Tabs value={isLoginMode} onChange={handleTabChange}>
-          <Tab label="Login" value={true} />
-          <Tab label="Sign Up" value={false} />
-        </Tabs>
-        <Typography id="modal-login-title" variant="h6" component="h2">
-          {isLoginMode ? "Login" : "Sign Up"}
-        </Typography>
-        <TextField
-          label="Username"
-          variant="outlined"
-          fullWidth
-          value={username}
-          onChange={handleUsernameChange}
-        />
-        <TextField
-          label="Password"
-          type="password"
-          variant="outlined"
-          fullWidth
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        {!isLoginMode && (
-          <TextField
-            label="Confirm Password"
-            type="password"
-            variant="outlined"
-            fullWidth
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            error={!passwordsMatch}
-            helperText={!passwordsMatch && "Passwords do not match"}
-          />
-        )}
-        <Button
-          variant="contained"
-          sx={{ mt: 2 }}
-          onClick={handleSubmit}
+        <IconButton
+          onClick={onClose}
+          sx={{
+            position: "absolute",
+            top: 8,
+            right: 8,
+            zIndex: 1,
+          }}
         >
-          {isLoginMode ? "Login" : "Sign Up"}
-        </Button>
+          <CloseIcon />
+        </IconButton>
+        <Box sx={{ flexGrow: 1 }}>
+          <Typography variant="h5">{isLogin ? "Log In" : "Sign Up"}</Typography>
+          <form onSubmit={handleSubmit}>
+            <Stack spacing={2} mt={2}>
+              <TextField
+                required
+                id="email"
+                label="Email"
+                type="email"
+                variant="outlined"
+                value={email}
+                onChange={handleEmailChange}
+              />
+              <TextField
+                required
+                id="password"
+                label="Password"
+                type="password"
+                variant="outlined"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+              {!isLogin && (
+                <TextField
+                  required
+                  id="confirmPassword"
+                  label="Confirm Password"
+                  type="password"
+                  variant="outlined"
+                  error={!passwordsMatch}
+                  helperText={!passwordsMatch && "Passwords do not match"}
+                  value={confirmPassword}
+                  onChange={handleConfirmPasswordChange}
+                />
+              )}
+              <Button type="submit" variant="contained">
+                {isLogin ? "Log In" : "Sign Up"}
+              </Button>
+            </Stack>
+          </form>
+          <Typography mt={2} onClick={handleSwitchAuth} style={{ cursor: "pointer" }}>
+            {isLogin
+              ? "Don't have an account? Sign Up"
+              : "Already have an account? Log In"}
+          </Typography>
+        </Box>
       </Box>
     </Modal>
   );
