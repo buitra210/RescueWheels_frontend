@@ -1,28 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { Box, Typography, Button, Paper, Grid, TextField } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
+
+interface UserData {
+    name: string;
+    email: string;
+    dateOfBirth: string;
+    address: string;
+    password: string;
+}
 
 export default function Profile() {
     const navigate = useNavigate();
     
-    // Giả sử dữ liệu người dùng được lấy từ backend và được lưu trong state
-    const [userData, setUserData] = useState({
-        name: "John Doe",
+    const [userData, setUserData] = useState<UserData>({
+        name: "",
         email: "john.doe@example.com",
-        dateOfBirth: "01/01/1990",
-        address: "123 Main Street, City, Country",
+        dateOfBirth: "",
+        address: "",
         password: "********", // Đây chỉ là một giá trị tạm thời, không nên lưu mật khẩu trong state
     });
 
-    // State để quản lý trạng thái chỉnh sửa
-    const [isEditing, setIsEditing] = useState(false);
 
-    // Hàm xử lý lưu thông tin đã chỉnh sửa
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [formValues, setFormValues] = useState<UserData>({ ...userData });
+
     const handleSave = () => {
-        // Thực hiện lưu thông tin mới vào backend
-        // Sau khi lưu, có thể chuyển về trang chi tiết hoặc trang chính
+        setUserData(formValues); // Update the user data with form values
         setIsEditing(false); // Kết thúc trạng thái chỉnh sửa
-    }
+    };
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormValues({
+            ...formValues,
+            [name]: value,
+        });
+    };
 
     return (
         <Box sx={{ mt: 4, textAlign: 'center' }}>
@@ -36,7 +50,9 @@ export default function Profile() {
                             <strong>Name:</strong> {isEditing ? (
                                 <TextField
                                     fullWidth
-                                    defaultValue={userData.name}
+                                    name="name"
+                                    value={formValues.name}
+                                    onChange={handleChange}
                                     variant="outlined"
                                     size="small"
                                 />
@@ -52,7 +68,9 @@ export default function Profile() {
                             <strong>Email:</strong> {isEditing ? (
                                 <TextField
                                     fullWidth
-                                    defaultValue={userData.email}
+                                    name="email"
+                                    value={formValues.email}
+                                    onChange={handleChange}
                                     variant="outlined"
                                     size="small"
                                 />
@@ -68,7 +86,9 @@ export default function Profile() {
                             <strong>Date of Birth:</strong> {isEditing ? (
                                 <TextField
                                     fullWidth
-                                    defaultValue={userData.dateOfBirth}
+                                    name="dateOfBirth"
+                                    value={formValues.dateOfBirth}
+                                    onChange={handleChange}
                                     variant="outlined"
                                     size="small"
                                 />
@@ -84,7 +104,9 @@ export default function Profile() {
                             <strong>Address:</strong> {isEditing ? (
                                 <TextField
                                     fullWidth
-                                    defaultValue={userData.address}
+                                    name="address"
+                                    value={formValues.address}
+                                    onChange={handleChange}
                                     variant="outlined"
                                     size="small"
                                 />
@@ -100,7 +122,9 @@ export default function Profile() {
                             <strong>Password:</strong> {isEditing ? (
                                 <TextField
                                     fullWidth
-                                    defaultValue={userData.password}
+                                    name="password"
+                                    value={formValues.password}
+                                    onChange={handleChange}
                                     variant="outlined"
                                     size="small"
                                     type="password"
