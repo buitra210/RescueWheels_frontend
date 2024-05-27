@@ -22,63 +22,109 @@ import { toast } from "react-toastify";
 import Layout2 from "src/layout/Layout2";
 import Header2 from "src/layout/header/Header2";
 
+type UserInfoData = {
+  file: string | null; // Store base64 string
+  name: string;
+  type: string;
+  location: string;
+  problem: string;
+};
+
 export default function FormRequest() {
   const [selectedFileName, setSelectedFileName] = useState("");
-  const [file, setFile] = useState(null);
-  const [userInfo, setUserInfo] = useState(() => {
-    const savedUserInfo = localStorage.getItem("userInfo");
-    if (savedUserInfo) {
-      return JSON.parse(savedUserInfo);
-    } else {
-      return {
-        file: "",
-        name: "",
-        type: "",
-        location: "",
-        problem: "",
-      };
-    }
+  const [file, setFile] = useState<File | null>(null);
+  const [userInfo, setUserInfo] = useState<UserInfoData>({
+    file: null,
+    name: "",
+    type: "",
+    location: "",
+    problem: "",
   });
 
-  console.log(userInfo);
+  useEffect(() => {
+    // Load data from localStorage when component mounts
+    const storedUserInfo = localStorage.getItem("userInfo");
+    if (storedUserInfo) {
+      const parsedUserInfo = JSON.parse(storedUserInfo);
+      setUserInfo(parsedUserInfo);
+      if (parsedUserInfo.file) {
+        setSelectedFileName("Uploaded File");
+      }
+    }
+  }, []);
 
-  const handleInputChange = (e: any) => {
+  useEffect(() => {
+    // Save userInfo to localStorage whenever it changes
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+  }, [userInfo]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
   };
 
-  const handleFileChange = (e: any) => {
-    const file = e.target.files[0];
-    setSelectedFileName(file.name);
-    setUserInfo({ ...userInfo, file: file });
-    setFile(file);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setSelectedFileName(file.name);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUserInfo((prev) => ({
+          ...prev,
+          file: reader.result as string,
+        }));
+      };
+      reader.readAsDataURL(file);
+      setFile(file);
+    }
   };
 
-  const handleDrop = (e: any) => {
+  const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    setSelectedFileName(file.name);
-    setUserInfo({ ...userInfo, file: file });
-    setFile(file);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const file = e.dataTransfer.files[0];
+      setSelectedFileName(file.name);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUserInfo((prev) => ({
+          ...prev,
+          file: reader.result as string,
+        }));
+      };
+      reader.readAsDataURL(file);
+      setFile(file);
+    }
   };
 
   const handleClearFile = () => {
     setSelectedFileName("");
     setFile(null);
+    setUserInfo((prev) => ({
+      ...prev,
+      file: null,
+    }));
   };
 
   const handleTypeChange = (event: SelectChangeEvent) => {
-    setUserInfo({ ...userInfo, type: event.target.value });
+    setUserInfo((prev) => ({
+      ...prev,
+      type: event.target.value,
+    }));
   };
 
   const handleSave = () => {
     console.log(userInfo);
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    localStorage.removeItem("userInfo");
+    setUserInfo({
+      file: null,
+      name: "",
+      type: "",
+      location: "",
+      problem: "",
+    });
+    setSelectedFileName("");
+    setFile(null);
     toast.success("Profile details saved successfully");
   };
-
-  useEffect(() => {
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
-  }, [userInfo]);
 
   return (
     <Layout2>
@@ -94,7 +140,7 @@ export default function FormRequest() {
                     alignItems: "center",
                   }}
                 >
-                  <ImageIcon sx={{ pr: 2 }} />
+                  <ImageIcon sx={{ pr: 2, fontSize: "40px" }} />
                   <Typography
                     variant="subtitle1"
                     color="blue-gray-600"
@@ -107,7 +153,6 @@ export default function FormRequest() {
                   Upload the image of car is broken here!
                 </Typography>
                 <input
-                  value={userInfo.file}
                   type="file"
                   id="fileInput"
                   style={{ display: "none" }}
@@ -158,18 +203,18 @@ export default function FormRequest() {
                         <Typography color="blue-gray-600">
                           {selectedFileName}
                         </Typography>
-                        <IconButton onClick={handleClearFile}></IconButton>
+                        <IconButton onClick={handleClearFile}>X</IconButton>
                       </div>
                     )}
 
                     <div>
-                      {file && (
+                      {userInfo.file && (
                         <img
                           style={{
                             maxWidth: "250px",
                             height: "auto",
                           }}
-                          src={URL.createObjectURL(file)}
+                          src={userInfo.file}
                           alt="Selected Image"
                         />
                       )}
@@ -181,18 +226,6 @@ export default function FormRequest() {
             <Paper sx={{ px: 3, py: 3, my: 5 }}>
               <Box>
                 <Box sx={{ mt: 3, pb: 3 }}>
-                  {/* <Box
-                  sx={{
-                    display: "flex",
-                    justifyItems: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <ErrorOutlineIcon sx={{ pr: 2 }} />
-                  <Typogra variant="subtitle1" sx={{ mb: 2 }}>
-                    General information
-                  </Typogra General informationphy>
-                </Box> */}
                   <Box
                     sx={{
                       display: "flex",
@@ -200,7 +233,7 @@ export default function FormRequest() {
                       alignItems: "center",
                     }}
                   >
-                    <ErrorOutlineIcon sx={{ pr: 2 }} />
+                    <ErrorOutlineIcon sx={{ pr: 2, fontSize: "40px" }} />
                     <Typography
                       variant="subtitle1"
                       color="blue-gray-600"
@@ -236,12 +269,14 @@ export default function FormRequest() {
                         <MenuItem value="">
                           <em>None</em>
                         </MenuItem>
-                        <MenuItem value={1}>Accident</MenuItem>
-                        <MenuItem value={2}>Out of gas</MenuItem>
-                        <MenuItem value={3}>Puncture tires</MenuItem>
+                        <MenuItem value="Accident">Accident</MenuItem>
+                        <MenuItem value="Out of gas">Out of gas</MenuItem>
+                        <MenuItem value="Puncture tires">
+                          Puncture tires
+                        </MenuItem>
                       </Select>
                       <FormHelperText>
-                        Pleaser enter your types of problems
+                        Please enter your types of problems
                       </FormHelperText>
                     </FormControl>
                   </Box>
@@ -264,10 +299,6 @@ export default function FormRequest() {
             <Paper sx={{ px: 3, py: 3, my: 5 }}>
               <Box>
                 <Box sx={{ mt: 3, pb: 3 }}>
-                  {/* <Box sx={{ display: "flex" }}>
-                  <LocationOnIcon sx={{ pr: 2 }} />
-                  <Typography sx={{ mb: 2 }}>Location and time</Typography>
-                </Box> */}
                   <Box
                     sx={{
                       display: "flex",
@@ -275,7 +306,7 @@ export default function FormRequest() {
                       alignItems: "center",
                     }}
                   >
-                    <LocationOnIcon sx={{ pr: 2 }} />
+                    <LocationOnIcon sx={{ pr: 2, fontSize: "40px" }} />
                     <Typography
                       variant="subtitle1"
                       color="blue-gray-600"
