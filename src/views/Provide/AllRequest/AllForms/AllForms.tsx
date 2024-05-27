@@ -8,7 +8,7 @@ export default function AllForms() {
       <Box>
         <Box sx={{ display: "flex", my: 2 }}>
           <GridViewOutlinedIcon />
-          <Typography sx={{ fontSize: "20px", ml: 1 }}>All Forms</Typography>
+          <Typography sx={{ fontSize: "20px", ml: 1 }}>All Forms</Typography>s
         </Box>
         <Box>
           <TableForm />

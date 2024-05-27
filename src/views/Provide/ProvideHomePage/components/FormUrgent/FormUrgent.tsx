@@ -8,11 +8,11 @@ import {
   DialogTitle,
   Typography,
 } from "@mui/material";
-import BoxCustom from "../../../../components/BoxCustom/BoxCustom";
 import PersonPinCircleOutlinedIcon from "@mui/icons-material/PersonPinCircleOutlined";
 import PanToolAltOutlinedIcon from "@mui/icons-material/PanToolAltOutlined";
-import ButtonCustom from "../../../../components/ButtonCustom/ButtonCustom";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import BoxCustom from "src/components/BoxCustom/BoxCustom";
 
 export default function ProvideFormUrgent() {
   const [open, setOpen] = useState(false);
@@ -25,6 +25,11 @@ export default function ProvideFormUrgent() {
     setOpen(false);
   };
 
+  const navigate = useNavigate();
+
+  const navigateToViewRequest = () => {
+    navigate("/allrequest");
+  };
   return (
     <Box
       sx={{
@@ -94,9 +99,12 @@ export default function ProvideFormUrgent() {
             </Typography>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <ButtonCustom sx={{ color: "#FFFFFF", mb: 3 }}>
+            <Button
+              onClick={navigateToViewRequest}
+              sx={{ color: "#d9d9d9", mb: 3, cursor: "pointer" }}
+            >
               View Now
-            </ButtonCustom>
+            </Button>
           </Box>
         </Box>
       </BoxCustom>

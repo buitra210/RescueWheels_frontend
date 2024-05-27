@@ -36,6 +36,7 @@ export default function FormRequest() {
       };
     }
   });
+
   console.log(userInfo);
 
   const handleInputChange = (e) => {
@@ -77,7 +78,7 @@ export default function FormRequest() {
   }, [userInfo]);
 
   return (
-    <Container>
+    <Container sx={{ backgroundColor: "white" }}>
       <Box>
         <Box sx={{ mt: 3, pb: 3, borderBottom: "1px solid #ccc" }}>
           <Box sx={{ display: "flex" }}>

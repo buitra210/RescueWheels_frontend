@@ -1,17 +1,15 @@
-import { Modal } from "@mui/material";
 import Header from "./header/Header";
 import { ToastContainer } from "react-toastify";
+import Header2 from "./header/Header2";
 import { ModalProvider } from "src/contexts/modal-context/modal-context";
 
 type Props = {
   children: React.ReactNode;
 };
-
-export default function Layout({ children }: Props) {
+export default function Layout2({ children }: Props) {
   return (
     <ModalProvider>
       <div style={{ width: "100%", minHeight: "100vh" }}>
-        <Header />
         {children}
         <ToastContainer
           position="top-center"

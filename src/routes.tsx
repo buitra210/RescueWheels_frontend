@@ -1,14 +1,16 @@
 import { useRoutes } from "react-router-dom";
 import Homepage from "./views/Homepage/Homepage";
-import UserHomePage from "./views/UserHomePage/UserHomePage";
-import ProviderHomePage from "./views/ProvideHomePage/ProvideHomePage";
+import AllRequest from "./views/Provide/AllRequest/AllRequest";
+import UserHomePage from "./views/User/UserHomePage/UserHomePage";
+import ProviderHomePage from "./views/Provide/ProvideHomePage/ProvideHomePage";
+import Feedback from "./views/User/Settings/Feedback/Feedback";
+import FormRequest from "./views/User/FormRequest/FormRequest";
 
 export default function RouterUrl() {
   return useRoutes([
     {
       path: "/",
       element: <Homepage />,
-      children: [{ path: "homepage", element: <Homepage /> }],
     },
     {
       path: "/userhomepage",
@@ -17,6 +19,18 @@ export default function RouterUrl() {
     {
       path: "/providehomepage",
       element: <ProviderHomePage />,
+    },
+    {
+      path: "/allrequest",
+      element: <AllRequest />,
+    },
+    {
+      path: "/feedback",
+      element: <Feedback />,
+    },
+    {
+      path: "/createrequest",
+      element: <FormRequest />,
     },
   ]);
 }

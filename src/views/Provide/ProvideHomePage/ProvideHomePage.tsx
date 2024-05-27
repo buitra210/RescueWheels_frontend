@@ -1,8 +1,7 @@
 import { Box } from "@mui/material";
-import Layout from "../../layout/Layout";
-import VideoHomepage from "../../layout/video/VideoHomepage";
+import VideoHomepage from "src/layout/video/VideoHomepage";
 import ProvideFormUrgent from "./components/FormUrgent/FormUrgent";
-import AllRequest from "../Provide/AllRequest/AllRequest";
+import Layout from "src/layout/Layout";
 
 export default function ProviderHomePage() {
   return (
@@ -10,7 +9,6 @@ export default function ProviderHomePage() {
       <Box>
         <VideoHomepage />
         <ProvideFormUrgent />
-        <AllRequest />
       </Box>
     </Layout>
   );

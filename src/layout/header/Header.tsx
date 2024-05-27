@@ -45,14 +45,6 @@ export default function Header() {
   return (
     <Box position="absolute" sx={{ zIndex: 1, width: "98%" }}>
       <Toolbar disableGutters>
-        <AdbIcon
-          sx={{
-            display: { xs: "none", md: "flex" },
-            mr: 1,
-            ml: 2,
-            color: "white",
-          }}
-        />
         <Typography
           variant="h6"
           noWrap

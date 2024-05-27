@@ -28,6 +28,7 @@ interface Data {
   type: string;
   location: string;
   file: string;
+  isDisabled: "true" | "false";
   // time: Date;
 }
 
@@ -36,7 +37,8 @@ function createData(
   name: string,
   type: string,
   location: string,
-  file: string
+  file: string,
+  isDisabled: "true" | "false"
   // time: Date
 ): Data {
   return {
@@ -45,6 +47,7 @@ function createData(
     type,
     location,
     file,
+    isDisabled,
     // time,
   };
 }
@@ -55,7 +58,8 @@ const rows = [
     "Cupcake",
     "OutOfgas",
     "Location 1",
-    "Problem 1"
+    "Problem 1",
+    "false"
     // new Date("2022-01-01T00:00:00")
   ),
   createData(
@@ -63,7 +67,8 @@ const rows = [
     "Cupcake",
     "OutOfgas",
     "Location 2",
-    "Problem 2"
+    "Problem 2",
+    "true"
     // new Date("2022-01-01T00:00:00")
   ),
   createData(
@@ -71,7 +76,8 @@ const rows = [
     "Eclair",
     "OutOfgas",
     "Location 2",
-    "Problem 2"
+    "Problem 2",
+    "true"
     // new Date("2022-01-01T00:00:00")
   ),
 ];
@@ -100,10 +106,6 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
 function stableSort<T>(
   array: readonly T[],
   comparator: (a: T, b: T) => number
@@ -282,7 +284,7 @@ export default function TableForm() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const isDisabled = false;
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: keyof Data
@@ -382,7 +384,11 @@ export default function TableForm() {
                     tabIndex={-1}
                     key={row.id}
                     selected={isItemSelected}
-                    sx={{ cursor: "pointer" }}
+                    sx={{
+                      cursor: "pointer",
+                      pointerEvents:
+                        row.isDisabled === "true" ? "none" : "auto",
+                    }}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox

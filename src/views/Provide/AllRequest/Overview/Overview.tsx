@@ -4,12 +4,15 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
 
 export default function Overview() {
+  const isDisabled = true;
   return (
     <Container>
       <Box sx={{ my: 4 }}>
         <Box sx={{ display: "flex", my: 2 }}>
           <GridViewOutlinedIcon />
-          <Typography sx={{ fontSize: "20px", ml: 1 }}>Overview</Typography>
+          <Typography variant="h2" sx={{ fontSize: "20px", ml: 1 }}>
+            Overview
+          </Typography>
         </Box>
         <Box
           sx={{

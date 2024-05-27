@@ -3,8 +3,13 @@ import React from "react";
 type BoxCustomProps = {
   children: React.ReactNode;
   sx?: SxProps;
+  onClick?: () => void;
 };
-export default function ButtonCustom({ children, sx }: BoxCustomProps) {
+export default function ButtonCustom({
+  children,
+  sx,
+  onClick,
+}: BoxCustomProps) {
   return (
     <Box
       sx={{

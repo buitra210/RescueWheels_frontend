@@ -1,8 +1,8 @@
 import { Box, Button, Typography } from "@mui/material";
-import BoxCustom from "../../../../components/BoxCustom/BoxCustom";
 import PersonPinCircleOutlinedIcon from "@mui/icons-material/PersonPinCircleOutlined";
 import PanToolAltOutlinedIcon from "@mui/icons-material/PanToolAltOutlined";
-import ButtonCustom from "../../../../components/ButtonCustom/ButtonCustom";
+import BoxCustom from "src/components/BoxCustom/BoxCustom";
+import ButtonCustom from "src/components/ButtonCustom/ButtonCustom";
 
 export default function FormUrgent() {
   return (
