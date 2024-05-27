@@ -40,6 +40,13 @@ export default function FormRequest() {
     location: "",
     problem: "",
   });
+  const [errors, setErrors] = useState({
+    file: false,
+    name: false,
+    type: false,
+    location: false,
+    problem: false,
+  });
 
   useEffect(() => {
     // Load data from localStorage when component mounts
@@ -111,21 +118,36 @@ export default function FormRequest() {
     }));
   };
 
-  const handleSave = () => {
-    console.log(userInfo);
-    localStorage.removeItem("userInfo");
-    setUserInfo({
-      file: null,
-      name: "",
-      type: "",
-      location: "",
-      problem: "",
-    });
-    setSelectedFileName("");
-    setFile(null);
-    toast.success("Profile details saved successfully");
+  const validateForm = () => {
+    const newErrors = {
+      file: userInfo.file === null,
+      name: userInfo.name.trim() === "",
+      type: userInfo.type.trim() === "",
+      location: userInfo.location.trim() === "",
+      problem: userInfo.problem.trim() === "",
+    };
+    setErrors(newErrors);
+    return !Object.values(newErrors).some((error) => error);
   };
 
+  const handleSave = () => {
+    if (validateForm()) {
+      console.log(userInfo);
+      localStorage.removeItem("userInfo");
+      setUserInfo({
+        file: null,
+        name: "",
+        type: "",
+        location: "",
+        problem: "",
+      });
+      setSelectedFileName("");
+      setFile(null);
+      toast.success("Profile details saved successfully");
+    } else {
+      toast.error("Please fill in all required fields.");
+    }
+  };
   return (
     <Layout2>
       <Header2>
