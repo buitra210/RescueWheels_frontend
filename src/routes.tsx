@@ -5,6 +5,7 @@ import UserHomePage from "./views/User/UserHomePage/UserHomePage";
 import ProviderHomePage from "./views/Provide/ProvideHomePage/ProvideHomePage";
 import Feedback from "./views/User/Settings/Feedback/Feedback";
 import FormRequest from "./views/User/FormRequest/FormRequest";
+import Profile from "./views/Profile/Profile";
 
 export default function RouterUrl() {
   return useRoutes([
@@ -31,6 +32,10 @@ export default function RouterUrl() {
     {
       path: "/createrequest",
       element: <FormRequest />,
+    },
+    {
+      path: "/profile",
+      element: <Profile />,
     },
   ]);
 }
