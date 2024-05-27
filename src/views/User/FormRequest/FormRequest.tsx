@@ -39,18 +39,18 @@ export default function FormRequest() {
 
   console.log(userInfo);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: any) => {
     const file = e.target.files[0];
     setSelectedFileName(file.name);
     setUserInfo({ ...userInfo, file: file });
     setFile(file);
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = (e: any) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
     setSelectedFileName(file.name);

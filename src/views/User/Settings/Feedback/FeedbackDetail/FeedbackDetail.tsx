@@ -18,6 +18,7 @@ import {
   useModalContext,
 } from "src/contexts/modal-context/modal-context";
 import StarIcon from "@mui/icons-material/Star";
+import { toast } from "react-toastify";
 
 const labels: { [index: string]: string } = {
   0.5: "Useless",
@@ -36,33 +37,42 @@ function getLabelText(value: number) {
   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
 }
 
-export default function FeedbackDetail() {
-  const [open, setOpen] = useState(true);
-  console.log("open", open);
-  const { closeModal } = useModalContext();
-  const handleClickOpen = () => {
-    closeModal();
-    setOpen(false);
-  };
-  const [value, setValue] = React.useState<number | null>(2);
-  const [hover, setHover] = React.useState(-1);
+type FeedbackInfoData = {
+  rating: number | null;
+  feedback: string;
+};
 
-  const [feedbackInfo, setFeedbackInfo] = useState(() => {
-    const savedFeedbackInfo = localStorage.getItem("feedbackInfo");
-    if (savedFeedbackInfo) {
-      return JSON.parse(savedFeedbackInfo);
-    } else {
-      return {
-        rating: 0,
-        feedback: "",
-      };
-    }
+export default function FeedbackDetail() {
+  const [feedbackInfo, setFeedbackInfo] = useState<FeedbackInfoData>(() => {
+    return { rating: 0, feedback: "" };
   });
   console.log(feedbackInfo);
-  const handleRatingChange = (e) => {
-    setFeedbackInfo({ ...feedbackInfo, rating: e.target.value });
-    setFeedbackInfo({ ...feedbackInfo, feedback: e.target.value });
+  const handleRatingChange = (newData: Partial<FeedbackInfoData>) => {
+    setFeedbackInfo((prev) => {
+      return {
+        ...prev,
+        ...newData,
+      };
+    });
+    //   setFeedbackInfo({ ...feedbackInfo, rating: e.target.value });
+    //   setFeedbackInfo({ ...feedbackInfo, feedback: e.target.value });
   };
+  async function handleSubmit() {
+    localStorage.setItem("userInfo", JSON.stringify(feedbackInfo));
+    toast.success("Feedback has sent successfully");
+    const response = await fetch("http://localhost:3000/feedback", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        rate: feedbackInfo.rating,
+        feedback: feedbackInfo.feedback,
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+  }
 
   return (
     <ModalProvider>
@@ -99,19 +109,15 @@ export default function FeedbackDetail() {
                 precision={0.5}
                 getLabelText={getLabelText}
                 onChange={(event, newValue) => {
-                  setValue(newValue);
-                  setFeedbackInfo({ ...feedbackInfo, rating: newValue });
-                }}
-                onChangeActive={(event, newHover) => {
-                  setHover(newHover);
+                  handleRatingChange({ rating: newValue });
                 }}
                 emptyIcon={
                   <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
                 }
               />
-              {feedbackInfo.value !== null && (
+              {feedbackInfo.rating !== null && (
                 <Box sx={{ ml: 2 }}>
-                  {labels[hover !== -1 ? hover : feedbackInfo.value]}
+                  {/* {labels[hover !== -1 ? hover : feedbackInfo.value]} */}
                 </Box>
               )}
             </Box>
@@ -144,7 +150,7 @@ export default function FeedbackDetail() {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleRatingChange}>Submit</Button>
+          <Button onClick={handleSubmit}>Submit</Button>
         </DialogActions>
       </Box>
     </ModalProvider>
