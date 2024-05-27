@@ -11,7 +11,6 @@ export default function UserHomePage() {
       <Box>
         <VideoHomepage />
         <FormUrgent />
-        <FormRequest />
       </Box>
     </Layout>
   );

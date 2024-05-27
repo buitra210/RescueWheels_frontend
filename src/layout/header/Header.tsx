@@ -139,7 +139,7 @@ export default function Header() {
           }}
         >
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <SearchIcon />
+            <SearchIcon color="warning" />
           </Box>
           <Paper
             component="form"

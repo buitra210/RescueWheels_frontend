@@ -8,7 +8,7 @@ export default function AllRequest() {
   return (
     <Layout2>
       <Header2>
-        <Box sx={{ pt: 7, backgroundColor: "black" }}>
+        <Box sx={{ pt: 7 }}>
           <Overview />
           <AllForms />
         </Box>

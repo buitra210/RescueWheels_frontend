@@ -6,9 +6,11 @@ export default function AllForms() {
   return (
     <Container>
       <Box>
-        <Box sx={{ display: "flex", my: 2 }}>
-          <GridViewOutlinedIcon />
-          <Typography sx={{ fontSize: "20px", ml: 1 }}>All Forms</Typography>s
+        <Box sx={{ display: "flex", my: 2, alignItems: "center" }}>
+          <GridViewOutlinedIcon sx={{ fontSize: "30px" }} />
+          <Typography variant="subtitle1" sx={{ fontSize: "20px", ml: 1 }}>
+            All Forms
+          </Typography>
         </Box>
         <Box>
           <TableForm />

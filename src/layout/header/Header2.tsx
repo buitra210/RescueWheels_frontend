@@ -108,7 +108,7 @@ export default function Header2({ children }: Props) {
   };
 
   return (
-    <Box sx={{ display: "flex", backgroundColor: "black" }}>
+    <Box sx={{ display: "flex", backgroundColor: "default" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ backgroundColor: "black" }}>
         <Toolbar sx={{ display: "flex", gap: 3, backgroundColor: "black" }}>
@@ -119,21 +119,22 @@ export default function Header2({ children }: Props) {
             edge="start"
             sx={{
               marginRight: 5,
+
               ...(open && { display: "none" }),
             }}
           >
-            <MenuIcon />
+            <MenuIcon fontSize="small" />
           </IconButton>
           <Header />
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open} sx={{ backgroundColor: "black" }}>
         <DrawerHeader sx={{ backgroundColor: "black" }}>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
+              <ChevronRightIcon fontSize="small" />
             ) : (
-              <ChevronLeftIcon />
+              <ChevronLeftIcon fontSize="small" />
             )}
           </IconButton>
         </DrawerHeader>

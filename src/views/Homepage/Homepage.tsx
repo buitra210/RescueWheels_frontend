@@ -1,16 +1,13 @@
 import { useState } from "react";
-import {
-  Box,
-  Button,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import VideoHomepage from "../../layout/video/VideoHomepage";
 import Layout from "../../layout/Layout";
 import AuthModal from "../AuthModal/AuthModal";
+import { useThemeContext } from "src/contexts/theme-context/theme-context";
 
 export default function Homepage() {
   const [openModal, setOpenModal] = useState(false);
-
+  const theme = useThemeContext();
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
 
@@ -30,17 +27,29 @@ export default function Homepage() {
             pb: 4,
           }}
         >
-          <Typography sx={{ fontSize: "60px" }}>
-            Let us <span style={{ fontWeight: 600 }}>SOLVE</span>
+          <Typography variant="h1" sx={{ fontSize: "60px", my: 5 }}>
+            Let us{" "}
+            <span
+              style={{
+                fontStyle: "oblique",
+                fontWeight: 600,
+                fontSize: "80px",
+                color: "white",
+              }}
+            >
+              SOLVE
+            </span>
           </Typography>
-          <Typography sx={{ fontSize: "60px" }}>all your problems</Typography>
+          <Typography variant="h1" sx={{ fontSize: "60px" }}>
+            all your problems
+          </Typography>
           <Box>
             <Button
-              variant="contained"
+              variant="text"
               sx={{
                 color: "#FFFFFF",
                 backgroundColor: "#2971AB",
-                mt: 3,
+                mt: 5,
                 borderRadius: "20px",
                 width: "200px",
                 "&:hover": {

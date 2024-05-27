@@ -1,10 +1,35 @@
-import { Box, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Typography,
+} from "@mui/material";
 import PersonPinCircleOutlinedIcon from "@mui/icons-material/PersonPinCircleOutlined";
 import PanToolAltOutlinedIcon from "@mui/icons-material/PanToolAltOutlined";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import BoxCustom from "src/components/BoxCustom/BoxCustom";
-import ButtonCustom from "src/components/ButtonCustom/ButtonCustom";
 
 export default function FormUrgent() {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const navigate = useNavigate();
+
+  const navigateToViewRequest = () => {
+    navigate("/createrequest");
+  };
   return (
     <Box
       sx={{
@@ -30,25 +55,56 @@ export default function FormUrgent() {
               pb: { xs: "10%", md: "5%" },
             }}
           >
-            Are you having car problems?
+            Now having 30 requests
           </Typography>
           <Box
-            sx={{ display: "flex", paddingBottom: { md: "100px", xs: "60px" } }}
+            sx={{
+              display: "flex",
+              paddingBottom: { md: "100px", xs: "60px" },
+              cursor: "pointer",
+            }}
+            onClick={handleClickOpen}
           >
             <PersonPinCircleOutlinedIcon sx={{ color: "#565e6d" }} />
             <Typography sx={{ fontSize: { xsm: "23px", xs: "15px" } }}>
               Click here to add your location
             </Typography>
           </Box>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Use Google's location service?"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Let Google help apps determine location. This means sending
+                anonymous location data to Google, even when no apps are
+                running.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Disagree</Button>
+              <Button onClick={handleClose} autoFocus>
+                Agree
+              </Button>
+            </DialogActions>
+          </Dialog>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Typography sx={{ fontWeight: 600 }}>
-              Let's fill this form!
+              Let's view all forms!
             </Typography>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <ButtonCustom sx={{ color: "#FFFFFF", mb: 3 }}>
-              Fill now
-            </ButtonCustom>
+            <Button
+              onClick={navigateToViewRequest}
+              sx={{ color: "#d9d9d9", mb: 3, cursor: "pointer" }}
+            >
+              View Now
+            </Button>
           </Box>
         </Box>
       </BoxCustom>
