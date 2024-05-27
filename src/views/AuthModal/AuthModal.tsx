@@ -35,11 +35,13 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
     e.preventDefault();
     if (isLogin) {
       // Handle login logic
+      console.log("log in");
     } else {
       if (password !== confirmPassword) {
         setPasswordsMatch(false);
       } else {
         // Handle register logic
+        console.log("sign up");
       }
     }
   };
