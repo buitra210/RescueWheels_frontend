@@ -13,13 +13,13 @@ import AdbIcon from "@mui/icons-material/Adb";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import SearchIcon from "@mui/icons-material/Search";
 import { Divider, InputBase, Paper } from "@mui/material";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const pages = ["Urgent", "Company", "Location", "About Us", "Contact Us"];
 const settings: string[] = ["Profile", "Account", "Dashboard", "Logout"];
 
-export default function Header() {
-
+type HeaderProps = { sx?: React.CSSProperties };
+export default function Header({ sx }: HeaderProps) {
   const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -53,7 +53,7 @@ export default function Header() {
   };
 
   return (
-    <Box position="absolute" sx={{ zIndex: 1, width: "98%" }}>
+    <Box position="absolute" sx={{ zIndex: 1, width: "97vw" }}>
       <Toolbar disableGutters>
         <Typography
           variant="h6"
@@ -61,7 +61,7 @@ export default function Header() {
           component="a"
           href="#app-bar-with-responsive-menu"
           sx={{
-            mr: 2,
+            mx: 2,
             display: { xs: "none", md: "flex" },
             fontFamily: "monospace",
             fontWeight: 700,

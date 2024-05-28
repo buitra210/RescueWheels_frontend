@@ -3,7 +3,7 @@ export default function VideoHomepage() {
     <video
       style={{
         height: "100vh",
-        width: "98vw",
+        width: "100vw",
         position: "absolute",
         objectFit: "cover",
         zIndex: -1,

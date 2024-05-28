@@ -108,7 +108,7 @@ export default function Header2({ children }: Props) {
   };
 
   return (
-    <Box sx={{ display: "flex", backgroundColor: "default" }}>
+    <Box sx={{ display: "flex", backgroundColor: "default", width: "100%" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ backgroundColor: "black" }}>
         <Toolbar sx={{ display: "flex", gap: 3, backgroundColor: "black" }}>
@@ -119,13 +119,15 @@ export default function Header2({ children }: Props) {
             edge="start"
             sx={{
               marginRight: 5,
+              zIndex: 2,
+              opacity: 0,
 
               ...(open && { display: "none" }),
             }}
           >
-            <MenuIcon fontSize="small" />
+            <MenuIcon fontSize="large" />
           </IconButton>
-          <Header />
+          <Header sx={{ zIndex: "1" }} />
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open} sx={{ backgroundColor: "black" }}>
