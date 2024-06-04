@@ -20,7 +20,11 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-import { getAsset } from "node:sea";
+// import { getAsset } from "node:sea";
+import { useState } from "react";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { Collapse } from "@material-tailwind/react";
 
 interface Data {
   id: number;
@@ -278,13 +282,14 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 export default function TableForm() {
-  const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof Data>("location");
-  const [selected, setSelected] = React.useState<readonly number[]>([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [order, setOrder] = useState<Order>("asc");
+  const [orderBy, setOrderBy] = useState<keyof Data>("location");
+  const [selected, setSelected] = useState<readonly number[]>([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const isDisabled = false;
+  const [open, setOpen] = useState(false);
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: keyof Data
@@ -351,6 +356,9 @@ export default function TableForm() {
       ),
     [order, orderBy, page, rowsPerPage]
   );
+  // function Visible(props: { visible: ReturnType<typeof createData> }){
+  //   const {visible} =  props
+  // }
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -376,41 +384,107 @@ export default function TableForm() {
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                    sx={{
-                      cursor: "pointer",
-                      pointerEvents:
-                        row.isDisabled === "true" ? "none" : "auto",
-                    }}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          "aria-labelledby": labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
+                  <React.Fragment>
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, row.id)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.id}
+                      selected={isItemSelected}
+                      sx={{
+                        cursor: "pointer",
+                        pointerEvents:
+                          row.isDisabled === "true" ? "none" : "auto",
+                      }}
                     >
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.type}</TableCell>
-                    <TableCell align="right">{row.location}</TableCell>
-                    <TableCell align="right">{row.file}</TableCell>
-                  </TableRow>
+                      <TableCell>
+                        <IconButton
+                          aria-label="expand row"
+                          size="small"
+                          onClick={() => setOpen(!open)}
+                        >
+                          {open ? (
+                            <KeyboardArrowUpIcon />
+                          ) : (
+                            <KeyboardArrowDownIcon />
+                          )}
+                        </IconButton>
+                      </TableCell>
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          color="primary"
+                          checked={isItemSelected}
+                          inputProps={{
+                            "aria-labelledby": labelId,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                      >
+                        {row.name}
+                      </TableCell>
+                      <TableCell align="right">{row.type}</TableCell>
+                      <TableCell align="right">{row.location}</TableCell>
+                      <TableCell align="right">{row.file}</TableCell>
+                    </TableRow>
+                    {/* <TableRow>
+                      <TableCell
+                        style={{ paddingBottom: 0, paddingTop: 0 }}
+                        colSpan={6}
+                      >
+                        <Collapse in={open} timeout="auto" unmountOnExit>
+                          <Box sx={{ margin: 1 }}>
+                            <Typography
+                              variant="h6"
+                              gutterBottom
+                              component="div"
+                            >
+                              History
+                            </Typography>
+                            <Table size="small" aria-label="purchases">
+                              <TableHead>
+                                <TableRow>
+                                  <TableCell>Date</TableCell>
+                                  <TableCell>Customer</TableCell>
+                                  <TableCell align="right">Amount</TableCell>
+                                  <TableCell align="right">
+                                    Total price ($)
+                                  </TableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                ssss */}
+                    {/* {row.history.map((historyRow) => (
+                                  <TableRow key={historyRow.date}>
+                                    <TableCell component="th" scope="row">
+                                      {historyRow.date}
+                                    </TableCell>
+                                    <TableCell>
+                                      {historyRow.customerId}
+                                    </TableCell>
+                                    <TableCell align="right">
+                                      {historyRow.amount}
+                                    </TableCell>
+                                    <TableCell align="right">
+                                      {Math.round(
+                                        historyRow.amount * row.price * 100
+                                      ) / 100}
+                                    </TableCell>
+                                  </TableRow>
+                                ))} */}
+                    {/* </TableBody>
+                            </Table>
+                          </Box>
+                        </Collapse>
+                      </TableCell>
+                    </TableRow> */}
+                  </React.Fragment>
                 );
               })}
               {emptyRows > 0 && (
@@ -418,9 +492,7 @@ export default function TableForm() {
                   style={{
                     height: (dense ? 33 : 53) * emptyRows,
                   }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
+                ></TableRow>
               )}
             </TableBody>
           </Table>

@@ -14,9 +14,14 @@ import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import SearchIcon from "@mui/icons-material/Search";
 import { Divider, InputBase, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Popover from "@mui/material/Popover";
+// import List from "@mui/material/List";
+// import ListItem from "@mui/material/ListItem";
+// import ListItemText from "@mui/material/ListItemText";
+import Notifications from "src/components/Notifications/Notifications";
 
 const pages = ["Urgent", "Company", "Location", "About Us", "Contact Us"];
-const settings: string[] = ["Profile", "Account", "Dashboard", "Logout"];
+const settings: string[] = ["Profile", "Account", "Feedback", "Logout"];
 
 type HeaderProps = { sx?: React.CSSProperties };
 export default function Header({ sx }: HeaderProps) {
@@ -29,6 +34,10 @@ export default function Header({ sx }: HeaderProps) {
     null
   );
 
+  const [anchorElNotif, setAnchorElNotif] = React.useState<null | HTMLElement>(
+    null
+  );
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -36,9 +45,20 @@ export default function Header({ sx }: HeaderProps) {
     setAnchorElUser(event.currentTarget);
   };
 
+  const handleOpenNotifMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNotif(event.currentTarget);
+  };
+
+  const handleNotificationClick = (event: React.MouseEvent<HTMLElement>) => {
+    handleOpenNotifMenu(event);
+  };
+
   const handleMenuClick = (setting: string) => {
     if (setting === "Profile") {
       navigate("/profile");
+    }
+    if (setting === "Feedback") {
+      navigate("/feedback");
     }
     // Add other navigation logic here if needed
     handleCloseUserMenu(); // Close the menu after navigating
@@ -50,6 +70,10 @@ export default function Header({ sx }: HeaderProps) {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleCloseNotifMenu = () => {
+    setAnchorElNotif(null);
   };
 
   return (
@@ -175,10 +199,31 @@ export default function Header({ sx }: HeaderProps) {
             ></IconButton>
           </Paper>
 
-          <NotificationsActiveIcon
+          <IconButton
+            component="span" // Add the component prop with the value "span"
+            onClick={handleNotificationClick}
             sx={{ cursor: "pointer", color: "#FFFFFF" }}
-          />
+          >
+            <NotificationsActiveIcon />
+          </IconButton>
 
+          <Popover
+            id="notification-popover"
+            open={Boolean(anchorElNotif)}
+            anchorEl={anchorElNotif}
+            onClose={handleCloseNotifMenu}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+            sx={{ padding: 2 }}
+          >
+            <Notifications />
+          </Popover>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               <Avatar
