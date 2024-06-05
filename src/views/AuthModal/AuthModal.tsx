@@ -13,6 +13,7 @@ const serverUrl = " http://localhost:3055"
 
 export default function AuthModal({open, onClose}: AuthModalProps) {
     const [isLogin, setIsLogin] = useState(true);
+    const [box_warning, setBoxWarning] = useState("")
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -27,6 +28,7 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
     const handleSwitchAuth = () => {
         setIsLogin(!isLogin);
         // Reset form fields when switching between login and signup
+        setBoxWarning("")
         setEmail("");
         setPassword("");
         setConfirmPassword("");
@@ -46,6 +48,8 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
                 localStorage.setItem('id', res.data.id)
                 localStorage.setItem('token', res.data.token)
                 navigate('/userhomepage')
+            } else {
+                setBoxWarning("Invalid email or password")
             }
         } else {
             if (password !== confirmPassword) {
@@ -117,6 +121,7 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
                 </IconButton>
                 <Box sx={{flexGrow: 1}}>
                     <Typography variant="h5">{isLogin ? "Log In" : "Sign Up"}</Typography>
+                    <Box id="box_warning"></Box>
                     <form onSubmit={handleSubmit}>
                         <Stack spacing={2} mt={2}>
                             <TextField
