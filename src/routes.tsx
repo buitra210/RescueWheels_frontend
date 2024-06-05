@@ -18,7 +18,7 @@ export default function RouterUrl() {
       element: <UserHomePage />,
     },
     {
-      path: "/providehomepage",
+      path: "/providerhomepage",
       element: <ProviderHomePage />,
     },
     {

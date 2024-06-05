@@ -17,6 +17,7 @@
     "@mui/material": "^5.15.19",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "@mui/x-data-grid": "^6.20.0",
+    "axios": "^1.7.2",
     "highcharts": "^11.4.3",
     "next-google-fonts": "^2.2.0",
     "react": "^18.2.0",
