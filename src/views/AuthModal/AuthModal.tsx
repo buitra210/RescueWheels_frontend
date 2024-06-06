@@ -1,4 +1,4 @@
-import {FormEvent, useState} from "react";
+import React, {FormEvent, useState} from "react";
 import {Box, Button, IconButton, Modal, Stack, TextField, Typography} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from 'axios'
@@ -73,13 +73,33 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
                 const signUpUrl = `${serverUrl}/signUp`
                 const res = await axios.post(signUpUrl, body)
                 if (res.status === 200) {
-                    navigate('/userhomepage')
+                    navigate('/ ')
                     setBoxWarning("")
                 } else {
                     setBoxWarning("Invalid email or password")
                 }
             }
         }
+    }
+
+    const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFirstName(e.target.value);
+    };
+
+    const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setLastName(e.target.value);
+    };
+
+    const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPhoneNumber(e.target.value);
+    };
+
+    const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setGender(e.target.value);
+    };
+
+    const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setAddress(e.target.value);
     }
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,9 +146,8 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
                 </IconButton>
                 <Box sx={{flexGrow: 1}}>
                     <Typography variant="h5">{isLogin ? "Log In" : "Sign Up"}</Typography>
-                    <Box id="box_warning"
-                         value={box_warning}
-                    ></Box>
+                    <div id="box-warning">
+                    </div>
                     <form onSubmit={handleSubmit}>
                         <Stack spacing={2} mt={2}>
                             {!isLogin && (
@@ -140,7 +159,8 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
                                         type="text"
                                         variant="outlined"
                                         value={firstName}
-                                        style={{ width: '50%' }}
+                                        onChange={handleFirstNameChange}
+                                        style={{width: '50%'}}
                                     />
                                     <TextField
                                         required
@@ -149,7 +169,8 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
                                         type="text"
                                         variant="outlined"
                                         value={lastName}
-                                        style={{ width: '50%' }}
+                                        onChange={handleLastNameChange}
+                                        style={{width: '50%'}}
                                     />
                                 </Box>
                             )}
@@ -191,6 +212,7 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
                                         type="text"
                                         variant="outlined"
                                         value={phoneNumber}
+                                        onChange={handlePhoneNumberChange}
                                     />
                                     <TextField
                                         required
@@ -199,6 +221,7 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
                                         type="text"
                                         variant="outlined"
                                         value={address}
+                                        onChange={handleAddressChange}
                                     />
                                 </Stack>
                             )}
