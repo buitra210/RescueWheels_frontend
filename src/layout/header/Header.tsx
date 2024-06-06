@@ -93,6 +93,7 @@ export default function Header({ sx }: HeaderProps) {
             textDecoration: "none",
             color: "#FFFFFF",
           }}
+          onClick={() => navigate("/")}
         >
           LOGO
         </Typography>
