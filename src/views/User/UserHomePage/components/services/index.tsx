@@ -7,9 +7,10 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import AdsClickIcon from "@mui/icons-material/AdsClick";
+import { useNavigate } from "react-router-dom";
 
 interface Service {
   name: string;
@@ -18,9 +19,16 @@ interface Service {
   media: string;
 }
 export default function ServiceCard(prop: Service) {
+  const navigate = useNavigate();
   return (
-    <Card sx={{ maxWidth: 345, backgroundColor: "#EEEEEE", marginTop: "20px" }}>
+    <Card sx={{ width: 345, backgroundColor: "#EEEEEE", marginTop: "20px" }}>
       <CardHeader
+        sx={{
+          color: "black",
+          textTransform: "uppercase",
+          fontSize: "50px",
+          fontWeight: "bold",
+        }}
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
             R
@@ -37,8 +45,8 @@ export default function ServiceCard(prop: Service) {
           </IconButton>
         }
         title={prop.name}
-        subheader="September 14, 2016"
-      />
+      ></CardHeader>
+
       <CardMedia
         component="img"
         height="194"
@@ -57,8 +65,11 @@ export default function ServiceCard(prop: Service) {
           sx={{
             color: "black",
           }}
+          onClick={() => {
+            navigate("/createrequest");
+          }}
         >
-          <FavoriteIcon />
+          <AdsClickIcon />
         </IconButton>
         <IconButton
           aria-label="share"

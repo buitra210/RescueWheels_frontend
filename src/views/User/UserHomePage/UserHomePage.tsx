@@ -1,6 +1,8 @@
-import { Box, Grid, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import Layout from "src/layout/Layout";
 import ServiceCard from "./components/services";
+import SwipeableTextMobileStepper from "./components/slider";
+import FeatureBar from "./components/featureBar";
 
 interface Service {
   name: string;
@@ -12,7 +14,8 @@ export default function UserHomePage() {
   const services: Service[] = [
     {
       name: "sua xe may",
-      image: "",
+      image:
+        "https://media.vneconomy.vn/images/upload/2021/04/20/elantra-sport-2019-1615220509482378120754-0-0-1079-1920-crop-16152205134791452801253.jpg",
       from: "",
       media: "",
     },
@@ -61,19 +64,27 @@ export default function UserHomePage() {
   ];
   return (
     <Layout>
-      <Box sx={{ paddingTop: "200px" }}>
-        <Stack direction="row" flexWrap="wrap" sx={{ marginLeft: "30px" }}>
-          {services?.map((item) => (
-            <Box
-              sx={{
-                marginTop: "30px",
-                marginLeft: "30px",
-                marginRight: "10px",
-              }}
-            >
-              <ServiceCard {...item}></ServiceCard>
-            </Box>
-          ))}
+      <Box sx={{ paddingTop: "100px" }}>
+        <Stack direction="column">
+          <SwipeableTextMobileStepper />
+          <FeatureBar />
+          <Stack
+            direction="row"
+            flexWrap="wrap"
+            sx={{ paddingLeft: "30px", backgroundColor: "#222222" }}
+          >
+            {services?.map((item) => (
+              <Box
+                sx={{
+                  marginTop: "30px",
+                  marginLeft: "30px",
+                  marginRight: "10px",
+                }}
+              >
+                <ServiceCard {...item}></ServiceCard>
+              </Box>
+            ))}
+          </Stack>
         </Stack>
       </Box>
     </Layout>
