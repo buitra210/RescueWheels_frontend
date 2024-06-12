@@ -13,7 +13,6 @@ const serverUrl = " http://localhost:3055"
 
 export default function AuthModal({open, onClose}: AuthModalProps) {
     const [isLogin, setIsLogin] = useState(true);
-    const [box_warning, setBoxWarning] = useState("")
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -21,21 +20,20 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [phoneNumber, setPhoneNumber] = useState("")
-    const [gender, setGender] = useState("")
     const [address, setAddress] = useState("")
     const navigate = useNavigate()
+    const box_warning = document.getElementById("box-warning")
+    box_warning.innerHTML = ""
 
     const handleSwitchAuth = () => {
         setIsLogin(!isLogin);
         // Reset form fields when switching between login and signup
-        setBoxWarning("")
         setEmail("");
         setPassword("");
         setFirstName("");
         setLastName("");
         setPhoneNumber("");
         setAddress("");
-        setGender("");
         setConfirmPassword("");
         setPasswordsMatch(true);
     };
@@ -54,7 +52,7 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
                 localStorage.setItem('token', res.data.token)
                 navigate('/userhomepage')
             } else {
-                setBoxWarning("Invalid email or password")
+                box_warning.innerHTML = "Invalid email or password"
             }
         } else {
             if (password !== confirmPassword) {
@@ -73,10 +71,10 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
                 const signUpUrl = `${serverUrl}/signUp`
                 const res = await axios.post(signUpUrl, body)
                 if (res.status === 200) {
-                    navigate('/ ')
-                    setBoxWarning("")
+                    navigate('/')
+
                 } else {
-                    setBoxWarning("Invalid email or password")
+                    box_warning.innerHTML = "Invalid email or password"
                 }
             }
         }
@@ -92,10 +90,6 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
 
     const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPhoneNumber(e.target.value);
-    };
-
-    const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setGender(e.target.value);
     };
 
     const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
