@@ -40,6 +40,10 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
         setPasswordsMatch(true);
     };
 
+    if (localStorage.getItem("id") != null) {
+        navigate("/userhomepage")
+    }
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (isLogin) {
@@ -51,6 +55,7 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
             const res = await axios.post(signInUrl, body)
             if (res.status === 200) {
                 localStorage.setItem('id', res.data.id)
+                localStorage.setItem("role", res.data.role)
                 localStorage.setItem('token', res.data.token)
                 navigate('/userhomepage')
             } else {

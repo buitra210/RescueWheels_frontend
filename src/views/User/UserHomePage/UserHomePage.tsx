@@ -3,6 +3,7 @@ import Layout from "src/layout/Layout";
 import ServiceCard from "./components/services";
 import SwipeableTextMobileStepper from "./components/slider";
 import FeatureBar from "./components/featureBar";
+import axios from "axios"
 
 interface Service {
   name: string;
@@ -10,7 +11,18 @@ interface Service {
   from: string;
   media: string;
 }
+
+const serverUrl = " http://localhost:3055"
+
 export default function UserHomePage() {
+  const getServiceByQuantity = async (p: number) => {
+      const s = await axios.get(serverUrl + `/getServiceByQuantity/10?${p}`)
+      console.log(s.data)
+      return s
+  }
+
+  getServiceByQuantity(0).then()
+
   const services: Service[] = [
     {
       name: "sua xe may",
