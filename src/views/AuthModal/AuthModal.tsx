@@ -1,5 +1,5 @@
-import {FormEvent, useState} from "react";
-import {Box, Button, IconButton, Modal, Stack, TextField, Typography,} from "@mui/material";
+import React, {FormEvent, useState} from "react";
+import {Box, Button, IconButton, Modal, Stack, TextField, Typography} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
@@ -31,9 +31,18 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
         setBoxWarning("")
         setEmail("");
         setPassword("");
+        setFirstName("");
+        setLastName("");
+        setPhoneNumber("");
+        setAddress("");
+        setGender("");
         setConfirmPassword("");
         setPasswordsMatch(true);
     };
+
+    if (localStorage.getItem("id") != null) {
+        navigate("/userhomepage")
+    }
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -46,6 +55,7 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
             const res = await axios.post(signInUrl, body)
             if (res.status === 200) {
                 localStorage.setItem('id', res.data.id)
+                localStorage.setItem("role", res.data.role)
                 localStorage.setItem('token', res.data.token)
                 navigate('/userhomepage')
             } else {
@@ -62,19 +72,39 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
                 body.append("firstName", firstName)
                 body.append("lastName", lastName)
                 body.append("phoneNumber", phoneNumber)
-                body.append("gender", gender)
                 body.append("address", address)
 
 
                 const signUpUrl = `${serverUrl}/signUp`
                 const res = await axios.post(signUpUrl, body)
                 if (res.status === 200) {
-                    localStorage.setItem('id', res.data.id)
-                    localStorage.setItem('token', res.data.token)
-
+                    navigate('/ ')
+                    setBoxWarning("")
+                } else {
+                    setBoxWarning("Invalid email or password")
                 }
             }
         }
+    }
+
+    const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFirstName(e.target.value);
+    };
+
+    const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setLastName(e.target.value);
+    };
+
+    const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPhoneNumber(e.target.value);
+    };
+
+    const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setGender(e.target.value);
+    };
+
+    const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setAddress(e.target.value);
     }
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,9 +151,34 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
                 </IconButton>
                 <Box sx={{flexGrow: 1}}>
                     <Typography variant="h5">{isLogin ? "Log In" : "Sign Up"}</Typography>
-                    <Box id="box_warning"></Box>
+                    <div id="box-warning">
+                    </div>
                     <form onSubmit={handleSubmit}>
                         <Stack spacing={2} mt={2}>
+                            {!isLogin && (
+                                <Box>
+                                    <TextField
+                                        required
+                                        id="firstName"
+                                        label="firstName"
+                                        type="text"
+                                        variant="outlined"
+                                        value={firstName}
+                                        onChange={handleFirstNameChange}
+                                        style={{width: '50%'}}
+                                    />
+                                    <TextField
+                                        required
+                                        id="lastName"
+                                        label="lastName"
+                                        type="text"
+                                        variant="outlined"
+                                        value={lastName}
+                                        onChange={handleLastNameChange}
+                                        style={{width: '50%'}}
+                                    />
+                                </Box>
+                            )}
                             <TextField
                                 required
                                 id="email"
@@ -143,17 +198,37 @@ export default function AuthModal({open, onClose}: AuthModalProps) {
                                 onChange={handlePasswordChange}
                             />
                             {!isLogin && (
-                                <TextField
-                                    required
-                                    id="confirmPassword"
-                                    label="Confirm Password"
-                                    type="password"
-                                    variant="outlined"
-                                    error={!passwordsMatch}
-                                    helperText={!passwordsMatch && "Passwords do not match"}
-                                    value={confirmPassword}
-                                    onChange={handleConfirmPasswordChange}
-                                />
+                                <Stack>
+                                    <TextField
+                                        required
+                                        id="confirmPassword"
+                                        label="Confirm Password"
+                                        type="password"
+                                        variant="outlined"
+                                        error={!passwordsMatch}
+                                        helperText={!passwordsMatch && "Passwords do not match"}
+                                        value={confirmPassword}
+                                        onChange={handleConfirmPasswordChange}
+                                    />
+                                    <TextField
+                                        required
+                                        id="phoneNumber"
+                                        label="Phone Number"
+                                        type="text"
+                                        variant="outlined"
+                                        value={phoneNumber}
+                                        onChange={handlePhoneNumberChange}
+                                    />
+                                    <TextField
+                                        required
+                                        id="address"
+                                        label="Address"
+                                        type="text"
+                                        variant="outlined"
+                                        value={address}
+                                        onChange={handleAddressChange}
+                                    />
+                                </Stack>
                             )}
                             <Button type="submit" variant="contained">
                                 {isLogin ? "Log In" : "Sign Up"}

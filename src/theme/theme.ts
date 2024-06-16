@@ -1,5 +1,5 @@
 import { ExpandMoreRounded } from "@mui/icons-material";
-import { darken, Theme, ThemeOptions } from "@mui/material";
+import { Theme, ThemeOptions } from "@mui/material";
 import React from "react";
 
 // eslint-disable-next-line quotes

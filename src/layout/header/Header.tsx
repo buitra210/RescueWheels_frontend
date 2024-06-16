@@ -20,7 +20,7 @@ import Popover from "@mui/material/Popover";
 // import ListItemText from "@mui/material/ListItemText";
 import Notifications from "src/components/Notifications/Notifications";
 
-const pages = ["Urgent", "Company", "Location", "About Us", "Contact Us"];
+const pages = ["Urgent", "Company", "Location", "About Us"];
 const settings: string[] = ["Profile", "Account", "Feedback", "Logout"];
 
 type HeaderProps = { sx?: React.CSSProperties };
@@ -93,6 +93,7 @@ export default function Header({ sx }: HeaderProps) {
             textDecoration: "none",
             color: "#FFFFFF",
           }}
+          onClick={() => navigate("/")}
         >
           LOGO
         </Typography>
