@@ -186,7 +186,7 @@ export default function ProvideFormUrgent() {
             variant="gradient"
             onClick={navigateToViewRequest}
           >
-            Share
+            View Now
           </Button>
         </CardActions>
       </Card>

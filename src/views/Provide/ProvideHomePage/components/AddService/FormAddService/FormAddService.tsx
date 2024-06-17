@@ -146,17 +146,30 @@ export default function FormAddService() {
                       value={newService.serviceDescription}
                       onChange={handleNewServiceChange}
                     />
-                    <Button
-                      onClick={() =>
-                        setNewService({
-                          serviceName: "",
-                          serviceDescription: "",
-                        })
-                      }
+                    <Box
+                      sx={[
+                        {
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          pt: 3,
+                        },
+                      ]}
                     >
-                      Cancel
-                    </Button>
-                    <Button type="submit">Add Service</Button>
+                      <Button
+                        variant="outlined"
+                        onClick={() =>
+                          setNewService({
+                            serviceName: "",
+                            serviceDescription: "",
+                          })
+                        }
+                      >
+                        Cancel
+                      </Button>
+                      <Button variant="outlined" type="submit" sx={{ mx: 2 }}>
+                        Add Service
+                      </Button>
+                    </Box>
                   </form>
                 </Box>
               </Box>
