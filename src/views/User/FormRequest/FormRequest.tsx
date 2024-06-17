@@ -130,6 +130,26 @@ export default function FormRequest() {
     return !Object.values(newErrors).some((error) => error);
   };
 
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            setUserInfo((prevInfo) => ({
+              ...prevInfo,
+              location: `${latitude}, ${longitude}`,
+            }));
+          },
+          (error) => {
+            console.error('Error getting location:', error);
+            alert('Unable to retrieve location.');
+          }
+      );
+    } else {
+      alert('Geolocation is not supported by this browser.');
+    }
+  };
+
   const handleSave = () => {
     if (validateForm()) {
       console.log(userInfo);
@@ -348,7 +368,9 @@ export default function FormRequest() {
                       }}
                     >
                       <MapOutlinedIcon fontSize="small" sx={{ pr: 1 }} />
-                      <Button>Get your location by Google Maps</Button>
+                      <Button
+                          onClick={getLocation}
+                      >Get your location by Google Maps</Button>
                     </Box>
                     <TextField
                       value={userInfo.location}
