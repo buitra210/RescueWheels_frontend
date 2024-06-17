@@ -1,6 +1,10 @@
 import {
   Box,
   Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
   Dialog,
   DialogActions,
   DialogContent,
@@ -40,7 +44,7 @@ export default function ProvideFormUrgent() {
         height: "98vh",
       }}
     >
-      <BoxCustom label="Urgent">
+      {/* <BoxCustom label="Urgent">
         <Box
           sx={{
             paddingTop: { xs: "2%", xsm: "10%", md: "5px" },
@@ -107,7 +111,85 @@ export default function ProvideFormUrgent() {
             </Button>
           </Box>
         </Box>
-      </BoxCustom>
+      </BoxCustom> */}
+      <Card sx={{ maxWidth: 345, height: "60%" }}>
+        <CardMedia
+          sx={{ height: 140 }}
+          image="public/img/fixcar1.jpg"
+          title="green iguana"
+        />
+        <CardContent>
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{ pb: 2, pt: 3 }}
+          >
+            Now having 30 requests
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Let's view all forms!
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              cursor: "pointer",
+              alignItems: "center",
+              py: 2,
+            }}
+            onClick={handleClickOpen}
+          >
+            <PersonPinCircleOutlinedIcon
+              sx={{ color: "#565e6d", fontSize: "24px" }}
+            />
+            <Button
+              variant={"text"}
+              sx={{ fontSize: { xs: "15px", md: "15px" } }}
+            >
+              Click here to add your location
+            </Button>
+          </Box>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Use Google's location service?"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                <Typography sx={{ pt: 2, pb: 3 }}>
+                  Let Google help apps determine location. This means sending
+                  anonymous location data to
+                </Typography>
+                <Typography sx={{ pb: 1 }}>
+                  {" "}
+                  Google, even when no apps are running.
+                </Typography>
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Disagree</Button>
+              <Button onClick={handleClose} autoFocus>
+                Agree
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </CardContent>
+        <CardActions
+          sx={{ display: "flex", justifyContent: "flex-end", pr: 6 }}
+        >
+          <Button
+            size="small"
+            variant="gradient"
+            onClick={navigateToViewRequest}
+          >
+            Share
+          </Button>
+        </CardActions>
+      </Card>
     </Box>
   );
 }

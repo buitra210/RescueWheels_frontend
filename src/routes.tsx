@@ -6,6 +6,7 @@ import ProviderHomePage from "./views/Provide/ProvideHomePage/ProvideHomePage";
 import Feedback from "./views/User/Settings/Feedback/Feedback";
 import FormRequest from "./views/User/FormRequest/FormRequest";
 import Profile from "./views/User/Settings/Profile/Profile";
+import FormAddService from "./views/Provide/ProvideHomePage/components/AddService/FormAddService/FormAddService";
 
 export default function RouterUrl() {
   return useRoutes([
@@ -18,7 +19,7 @@ export default function RouterUrl() {
       element: <UserHomePage />,
     },
     {
-      path: "/providerhomepage",
+      path: "/provider",
       element: <ProviderHomePage />,
     },
     {
@@ -36,6 +37,10 @@ export default function RouterUrl() {
     {
       path: "/profile",
       element: <Profile />,
+    },
+    {
+      path: "/formaddservice",
+      element: <FormAddService />,
     },
   ]);
 }

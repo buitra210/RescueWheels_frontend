@@ -25,6 +25,7 @@ import { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Collapse } from "@material-tailwind/react";
+import { Button } from "@mui/material";
 
 interface Data {
   id: number;
@@ -59,28 +60,28 @@ function createData(
 const rows = [
   createData(
     1,
-    "Cupcake",
-    "OutOfgas",
-    "Location 1",
-    "Problem 1",
+    "motorbike rescue",
+    "Out Of gas",
+    "Hai Ba Trung",
+    "03:16:45",
     "false"
     // new Date("2022-01-01T00:00:00")
   ),
   createData(
     2,
-    "Cupcake",
-    "OutOfgas",
-    "Location 2",
-    "Problem 2",
+    "motorbike rescue",
+    "Tire Damage",
+    "Hoan Kiem",
+    "12:04:05",
     "true"
     // new Date("2022-01-01T00:00:00")
   ),
   createData(
     3,
-    "Eclair",
-    "OutOfgas",
-    "Location 2",
-    "Problem 2",
+    "motorbike rescue",
+    "Out Of gas",
+    "Nam Tu Liem",
+    "22:05:34",
     "true"
     // new Date("2022-01-01T00:00:00")
   ),
@@ -188,22 +189,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              "aria-label": "select all desserts",
-            }}
-          />
-        </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
-            padding={headCell.disablePadding ? "none" : "normal"}
+            sx={{ padding: "10px" }}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
@@ -220,6 +210,12 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             </TableSortLabel>
           </TableCell>
         ))}
+        <TableCell>
+          <Typography> Accept </Typography>
+        </TableCell>
+        <TableCell>
+          <Typography> Refuse </Typography>
+        </TableCell>
       </TableRow>
     </TableHead>
   );
@@ -288,7 +284,6 @@ export default function TableForm() {
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const isDisabled = false;
   const [open, setOpen] = useState(false);
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -399,39 +394,27 @@ export default function TableForm() {
                           row.isDisabled === "true" ? "none" : "auto",
                       }}
                     >
-                      <TableCell>
-                        <IconButton
-                          aria-label="expand row"
-                          size="small"
-                          onClick={() => setOpen(!open)}
-                        >
-                          {open ? (
-                            <KeyboardArrowUpIcon />
-                          ) : (
-                            <KeyboardArrowDownIcon />
-                          )}
-                        </IconButton>
-                      </TableCell>
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
+                      {" "}
                       <TableCell
                         component="th"
                         id={labelId}
                         scope="row"
-                        padding="none"
+                        sx={{ padding: "10px" }}
                       >
                         {row.name}
                       </TableCell>
                       <TableCell align="right">{row.type}</TableCell>
                       <TableCell align="right">{row.location}</TableCell>
                       <TableCell align="right">{row.file}</TableCell>
+                      <TableCell>
+                        {" "}
+                        <Button variant="contained">Accept</Button>
+                      </TableCell>
+                      <TableCell>
+                        <Button variant="outlined" color="error">
+                          Refuse
+                        </Button>
+                      </TableCell>
                     </TableRow>
                     {/* <TableRow>
                       <TableCell
