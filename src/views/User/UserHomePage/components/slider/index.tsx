@@ -56,8 +56,8 @@ function SwipeableTextMobileStepper() {
                 src={step.imgPath}
                 alt={step.label}
               >
-                <div
-                  style={{
+                <Box
+                  sx={{
                     height: 600,
                     display: "block",
                     overflow: "hidden",
@@ -69,7 +69,7 @@ function SwipeableTextMobileStepper() {
                     alt={step.label}
                     style={{ width: "100%", height: "100%" }}
                   />
-                </div>
+                </Box>
               </Box>
             ) : null}
           </div>

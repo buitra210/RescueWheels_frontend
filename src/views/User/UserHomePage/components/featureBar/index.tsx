@@ -9,7 +9,7 @@ export default function FeatureBar() {
       sx={{
         height: "250px",
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "space-evenly",
         alignItems: "center",
       }}
     >
@@ -42,7 +42,7 @@ export default function FeatureBar() {
           sx={{ color: "#EEEEEE", marginTop: "15px" }}
         >
           {" "}
-          cứu hộ nhanh chóng
+          Quick Rescue
         </Typography>
       </Stack>
       <Stack
@@ -71,7 +71,7 @@ export default function FeatureBar() {
         </Box>
         <Typography align="center" sx={{ color: "#EEEEEE", marginTop: "15px" }}>
           {" "}
-          Phục vụ 24/7
+          Served 24/7
         </Typography>
       </Stack>
       <Stack
@@ -100,7 +100,7 @@ export default function FeatureBar() {
         </Box>
         <Typography align="center" sx={{ color: "#EEEEEE", marginTop: "15px" }}>
           {" "}
-          Cứu hộ tất cả loại xe
+          Salvage all types of vehicles
         </Typography>
       </Stack>
     </Stack>

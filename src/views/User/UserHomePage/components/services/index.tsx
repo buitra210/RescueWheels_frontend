@@ -11,74 +11,53 @@ import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AdsClickIcon from "@mui/icons-material/AdsClick";
 import { useNavigate } from "react-router-dom";
+import { Box, Button } from "@mui/material";
 
 interface Service {
-  name: string;
-  image: string;
-  from: string;
-  media: string;
+  serviceName: string;
+  serviceDescription: string;
+  fromProviderId: string;
 }
 export default function ServiceCard(prop: Service) {
   const navigate = useNavigate();
   return (
-    <Card sx={{ width: 345, backgroundColor: "#EEEEEE", marginTop: "20px" }}>
+    <Card sx={{ width: 345, marginTop: "20px" }}>
       <CardHeader
         sx={{
-          color: "black",
           textTransform: "uppercase",
           fontSize: "50px",
           fontWeight: "bold",
         }}
-        avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
-          </Avatar>
-        }
+        avatar={<Avatar aria-label="recipe">R</Avatar>}
         action={
-          <IconButton
-            aria-label="settings"
-            sx={{
-              color: "black",
-            }}
-          >
+          <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
-        title={prop.name}
+        title={prop.serviceName}
       ></CardHeader>
 
-      <CardMedia
-        component="img"
-        height="194"
-        image={prop.image}
-        alt="Paella dish"
-      />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {prop.from}
+        <Typography variant="body2" color="text.secondary" sx={{ py: 2 }}>
+          {prop.serviceDescription}
         </Typography>
-        <Typography>{prop.media}</Typography>
       </CardContent>
-      <CardActions disableSpacing>
-        <IconButton
-          aria-label="add to favorites"
-          sx={{
-            color: "black",
-          }}
+      <CardActions
+        disableSpacing
+        sx={{ pb: 2, justifyContent: "flex-end", display: "flex", pr: 3 }}
+      >
+        <Button
+          variant="gradient"
+          sx={{ display: "flex", alignItems: "center", px: 1 }}
           onClick={() => {
             navigate("/createrequest");
           }}
         >
-          <AdsClickIcon />
-        </IconButton>
-        <IconButton
-          aria-label="share"
-          sx={{
-            color: "black",
-          }}
-        >
-          <ShareIcon />
-        </IconButton>
+          <IconButton sx={{ fontSize: "10px", padding: 0 }}>
+            <AdsClickIcon />
+          </IconButton>
+          <Typography sx={{ fontSize: "15 px" }}>Add Request</Typography>
+        </Button>
       </CardActions>
     </Card>
   );
